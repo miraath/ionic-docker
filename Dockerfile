@@ -68,8 +68,6 @@ COPY sh /opt/tools
 RUN ["/opt/tools/android-accept-licenses.sh", "android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.2,android-24,sys-img-x86_64-google_apis-24,addon-google_apis-google-24,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"]
 RUN unzip ${ANDROID_HOME}/temp/*.zip -d ${ANDROID_HOME}
 
-
-
 WORKDIR Sources
 EXPOSE 8100 35729
 CMD ["ionic", "serve"]
