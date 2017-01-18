@@ -3,11 +3,6 @@ MAINTAINER marco [dot] turi [at] hotmail [dot] it
 
 ENV DEBIAN_FRONTEND=noninteractive \
     ANDROID_HOME=/opt/android-sdk-linux \
-    NODE_VERSION=6.9.3 \
-    NPM_VERSION=3.10.10 \
-    IONIC_VERSION=2.1.18 \
-    CORDOVA_VERSION=6.4.0 \
-    YARN_VERSION=0.18.1 \
     # Fix for the issue with Selenium, as described here:
     # https://github.com/SeleniumHQ/docker-selenium/issues/87
     DBUS_SESSION_BUS_ADDRESS=/dev/null
@@ -18,9 +13,6 @@ RUN apt-get update &&  \
     curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get update &&  \
     apt-get install -y nodejs && \
-    npm install -g npm@"$NPM_VERSION" cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION" yarn@"$YARN_VERSION" && \
-    npm cache clear && \
-    gem install sass && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg --unpack google-chrome-stable_current_amd64.deb && \
     apt-get install -f -y && \
@@ -37,10 +29,6 @@ RUN apt-get update &&  \
     add-apt-repository ppa:webupd8team/java -y && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get update && apt-get -y install oracle-java8-installer && \
-
-# Ruby
-    apt-add-repository ppa:brightbox/ruby-ng -y && \
-    apt-get update && apt-get install -y -q ruby2.2 && \
 
 #ANDROID STUFF
     echo ANDROID_HOME="${ANDROID_HOME}" >> /etc/environment && \
