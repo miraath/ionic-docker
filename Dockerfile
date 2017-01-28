@@ -10,15 +10,24 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Install basics
 RUN apt-get update &&  \
     apt-get install -y git wget curl unzip ruby build-essential xvfb && \
-    curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
-    apt-get update &&  \
-    apt-get install -y nodejs && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg --unpack google-chrome-stable_current_amd64.deb && \
     apt-get install -f -y && \
     apt-get clean && \
     rm google-chrome-stable_current_amd64.deb && \
-    mkdir Sources && \
+    
+    
+    
+# Node stuff
+    curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+    apt-get update &&  \
+    apt-get install -y nodejs && \
+    npm install -g gulp-cli cordova ionic && \
+    npm cache clean && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
+    sudo apt-get update && \
+    sudo apt-get install yarn && \
     mkdir -p /root/.cache/yarn/ && \
 
 # Font libraries
@@ -56,6 +65,7 @@ COPY sh /opt/tools
 RUN ["/opt/tools/android-accept-licenses.sh", "android update sdk --all --no-ui --filter platform-tools,tools,build-tools-25.0.2,android-24,sys-img-x86_64-google_apis-24,addon-google_apis-google-24,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"]
 RUN unzip ${ANDROID_HOME}/temp/*.zip -d ${ANDROID_HOME}
 
-WORKDIR Sources
-EXPOSE 8100 35729
-CMD ["ionic", "serve"]
+RUN mkdir radio
+WORKDIR radio
+# EXPOSE 8100 35729
+# CMD ["ionic", "serve"]
