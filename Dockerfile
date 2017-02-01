@@ -67,5 +67,5 @@ RUN unzip ${ANDROID_HOME}/temp/*.zip -d ${ANDROID_HOME}
 
 RUN mkdir radio
 WORKDIR radio
-# EXPOSE 8100 35729
+EXPOSE 8100 35729
 # CMD ["ionic", "serve"]
