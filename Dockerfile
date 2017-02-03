@@ -8,22 +8,22 @@ ENV DEBIAN_FRONTEND=noninteractive \
     DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 # Install basics
-RUN apt-get update &&  \
-    apt-get install -qqy git wget curl unzip ruby build-essential xvfb && \
+RUN apt-get update -qq &&  \
+    apt-get install -qq -y git wget curl unzip ruby build-essential xvfb && \
 
 ## Chrome
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg --unpack google-chrome-stable_current_amd64.deb && \
-    apt-get install -f -qqy && \
+    apt-get install -f -qq -y && \
     apt-get clean && \
     rm google-chrome-stable_current_amd64.deb && \
 
 ## Font libraries
-    apt-get -qqy install fonts-ipafont-gothic xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable ttf-ubuntu-font-family libfreetype6 libfontconfig
+    apt-get -qq -y install fonts-ipafont-gothic xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable ttf-ubuntu-font-family libfreetype6 libfontconfig
 
 # Node stuff
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
-    apt-get install -qqy nodejs && \
+    apt-get install -qq -y nodejs && \
 
 ## Global packages
     npm install -g gulp-cli cordova ionic && \
@@ -32,22 +32,22 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
 ## Yarn (Node package manager)
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && \
-    apt-get install -qqy yarn && \
+    apt-get update -qq && \
+    apt-get install -qq -y yarn && \
     mkdir -p /root/.cache/yarn/
 
 # Oracle Java 8
 ## install python-software-properties (so you can do add-apt-repository)
-RUN apt-get install -qqy python-software-properties software-properties-common  && \
+RUN apt-get install -qq -y python-software-properties software-properties-common  && \
     add-apt-repository ppa:webupd8team/java -y && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    apt-get update && \
-    apt-get -qqy install oracle-java8-installer
+    apt-get update -qq && \
+    apt-get -qq -y install oracle-java8-installer
 
 # Android SDK
 RUN echo ANDROID_HOME="${ANDROID_HOME}" >> /etc/environment && \
     dpkg --add-architecture i386 && \
-    apt-get install -qqy --force-yes expect ant wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 qemu-kvm kmod && \
+    apt-get install -qq -y --force-yes expect ant wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 qemu-kvm kmod && \
     cd /opt && \
     wget --output-document=android-sdk.tgz --quiet http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
     tar xzf android-sdk.tgz && \
